@@ -18,17 +18,11 @@ class App extends React.Component {
         searchedBooks: [],
         isLoading: true
     }
-    // fectch the data from api then storeage it in value
-    fetch() {
-        BooksAPI
-            .getAll()
-            .then(books => {
-                this.setState({books, isLoading: false})
-            });
-    }
+
     //The fetch() method is called once this component has been rendered
-    componentDidMount() {
-        this.fetch();
+    async componentDidMount() {
+        const books = await BooksAPI.getAll();
+        this.setState({books})
     }
 
     elements = [
@@ -90,7 +84,6 @@ class App extends React.Component {
                     render={() => (<Search books={books} shelfing={this.ChangeShelf}/>)}/>
 
                 <Route
-                    exact="exact"
                     path='/'
                     render={() => (<List books={books} elements={this.elements} shelfing={this.ChangeShelf}/>)}/>
             </div>
