@@ -4,7 +4,7 @@ import Barshearch from "./Barshearch"
 
 class List extends React.Component {
   render() {
-    const { books, shelves, shelfing } = this.props;
+    const { books, elements, shelfing } = this.props;
     console.log(books);
     // filter books for a particular shelf
     function booksOnShelf (shelf){
@@ -18,7 +18,7 @@ class List extends React.Component {
         </div>
         <div className="list-books-content">
           <div>
-            {shelves.map(shelf => (
+            {elements.map(shelf => (
               <Bookshelf key={shelf.key} shelf={shelf} books={booksOnShelf(shelf)} shelfing={shelfing} />
             ))}
           </div>

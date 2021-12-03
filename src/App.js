@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import {Route} from 'react-router-dom'
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import * as BooksAPI from "./API"
 import List from "./List"
 import Search from "./Search"
@@ -18,24 +18,20 @@ class App extends React.Component {
         searchedBooks: [],
         isLoading: true
     }
-
+    // fectch the data from api then storeage it in value
     fetch() {
         BooksAPI
             .getAll()
             .then(books => {
-                this.fetch();
+                this.setState({books, isLoading: false})
             });
     }
-
+    //The fetch() method is called once this component has been rendered
     componentDidMount() {
-        BooksAPI
-            .getAll()
-            .then((books) => {
-                this.setState({books})
-            })
+        this.fetch();
     }
 
-    shelves = [
+    elements = [
         {
             key: 'currentlyReading',
             name: 'Reading Right Now'
@@ -47,7 +43,7 @@ class App extends React.Component {
             name: 'Read'
         }
     ]
-
+// It performs an update everytime a shelf is selected;
     ChangeShelf = (book, shelf) => {
         BooksAPI
             .update(book, shelf)
@@ -96,15 +92,12 @@ class App extends React.Component {
                 <Route
                     exact="exact"
                     path='/'
-                    render={() => (
-                        <List
-                            books={books}
-                            shelves={this.shelves}
-                            shelfing={this.ChangeShelf}/>
-                    )}/>
+                    render={() => (<List books={books} elements={this.elements} shelfing={this.ChangeShelf}/>)}/>
             </div>
         )
     }
 }
 
-export { App as default} 
+export {
+    App as default
+}

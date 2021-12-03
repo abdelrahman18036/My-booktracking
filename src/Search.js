@@ -1,6 +1,6 @@
 import React from 'react'
 import * as BooksAPI from "./API"
-import HomePage from "./HomePage"
+import DefaultPage from "./DefaultPage"
 import Book from "./Book"
 class Search extends React.Component {
     state = {
@@ -11,7 +11,7 @@ class Search extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
         showBarshearch: false,
-        searchResults: [],
+        Results: [],
         value: ''
     }
 
@@ -24,19 +24,19 @@ class Search extends React.Component {
                 .search(value)
                 .then(books => {
                     if (books.error) {
-                        this.setState({searchResults: []});
+                        this.setState({Results: []});
                     } else {
-                        this.setState({searchResults: books});
+                        this.setState({Results: books});
                     }
                 })
-                .catch(this.setState({searchResults: []}));
+                .catch(this.setState({Results: []}));
         } else {
-            this.setState({searchResults: []});
+            this.setState({Results: []});
         }
     };
 
-    resetSearch = () => {
-        this.setState({searchResults: []});
+    resest = () => {
+        this.setState({Results: []});
     }
 
     render() {
@@ -44,37 +44,45 @@ class Search extends React.Component {
 
         this
             .state
-            .searchResults
-            .forEach(function (searchedBook) {
+            .Results
+            .forEach(function (booksearch) {
                 books.forEach(function (book) {
-                    if (book.id === searchedBook.id) {
-                        searchedBook.shelf = book.shelf;
+                    if (book.id === booksearch.id) {
+                        booksearch.shelf = book.shelf;
                     }
                 });
-                if (!searchedBook.shelf) {
-                    searchedBook.shelf = 'none';
+                if (!booksearch.shelf) {
+                    booksearch.shelf = 'none';
                 }
             })
 
         return (
             <div className="search-books">
-            <div className="search-books-bar">
-              <HomePage resetSearch={this.resetSearch} />
-              <div className="search-books-input-wrapper">
-                <input type="text" placeholder="Search by title or author" value={this.state.value} onChange={this.handleChange} />
-              </div>
+                <div className="search-books-bar">
+                    <DefaultPage resest={this.resest}/>
+                    <div className="search-books-input-wrapper">
+                        <input
+                            type="text"
+                            placeholder="Search by author or title."
+                            value={this.state.value}
+                            onChange={this.handleChange}/>
+                    </div>
+                </div>
+                <div className="search-books-results">
+                    <ol className="books-grid">
+                        {
+                            this
+                                .state
+                                .Results
+                                .map(book => (<Book key={book.id} book={book} shelfing={shelfing}/>))
+                        }
+                    </ol>
+                </div>
             </div>
-            <div className="search-books-results">
-              <ol className="books-grid">
-              {this.state.searchResults.map(book => (
-                  <Book key={book.id} book={book} shelfing={shelfing} />
-                ))}
-              </ol>
-            </div>
-          </div>
         )
     }
 }
 
-  
-export { Search as default} 
+export {
+    Search as default
+}

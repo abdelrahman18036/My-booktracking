@@ -51,7 +51,7 @@ getAll()
 ```
 
 * Returns a Promise which resolves to a JSON object containing a collection of book objects.
-* This collection represents the books currently in the bookshelves in your app.
+* This collection represents the books currently in the bookelements in your app.
 
 ### `update`
 

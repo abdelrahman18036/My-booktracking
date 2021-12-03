@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 function Barshearch(){
   return (
-    <div className="open-search">
+    <div className="open">
       <Link to="/search"><button>Add a book</button></Link>
     </div>
   )

@@ -1,11 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import {Link as Link} from 'react-router-dom'
 
-
-function HomePage(props){
-  return (
-    <Link to="/"><button className="close-search" onClick={props.resetSearch} >Close</button></Link>
-  )
+function DefaultPage(props) {
+    return (
+        <Link to="/">
+            <button className="close" onClick={props.resest}>Close</button>
+        </Link>
+    )
 }
 
-export default HomePage
+export default DefaultPage
